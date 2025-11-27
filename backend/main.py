@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from app.api.endpoints import users, couples
 from app.db.database import create_tables
-
 # Создаем таблицы при старте
 create_tables()
 

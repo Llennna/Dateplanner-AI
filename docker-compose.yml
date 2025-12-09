@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: dateplanner
+      POSTGRES_USER: dateplanner
+      POSTGRES_PASSWORD: dateplanner123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - dateplanner-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dateplanner"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://dateplanner:dateplanner123@postgres:5432/dateplanner
+      SECRET_KEY: your-secret-key-here
+      YANDEX_MAPS_API_KEY: ${YANDEX_MAPS_API_KEY}
+      GOOGLE_PLACES_API_KEY: ${GOOGLE_PLACES_API_KEY}
+      HUGGINGFACE_TOKEN: ${HUGGINGFACE_TOKEN}
+    volumes:
+      - ./backend:/app
+      - backend_data:/app/data
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - dateplanner-network
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - dateplanner-network
+    environment:
+      VITE_API_URL: http://localhost:8000
+      VITE_APP_NAME: DatePlanner AI
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@dateplanner.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - dateplanner-network
+
+networks:
+  dateplanner-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  backend_data:

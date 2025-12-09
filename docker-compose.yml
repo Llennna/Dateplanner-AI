@@ -1,12 +1,14 @@
 version: '3.8'
 
 services:
+  # PostgreSQL database
   postgres:
     image: postgres:15-alpine
+    container_name: dateplanner-postgres
     environment:
-      POSTGRES_DB: dateplanner
-      POSTGRES_USER: dateplanner
-      POSTGRES_PASSWORD: dateplanner123
+      POSTGRES_DB: ${POSTGRES_DB:-dateplanner}
+      POSTGRES_USER: ${POSTGRES_USER:-dateplanner}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dateplanner123}
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./backend/db/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -19,20 +21,22 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    restart: unless-stopped
 
+  # FastAPI Backend
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    container_name: dateplanner-backend
     environment:
-      DATABASE_URL: postgresql://dateplanner:dateplanner123@postgres:5432/dateplanner
-      SECRET_KEY: your-secret-key-here
-      YANDEX_MAPS_API_KEY: ${YANDEX_MAPS_API_KEY}
-      GOOGLE_PLACES_API_KEY: ${GOOGLE_PLACES_API_KEY}
-      HUGGINGFACE_TOKEN: ${HUGGINGFACE_TOKEN}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://dateplanner:dateplanner123@postgres:5432/dateplanner}
+      SECRET_KEY: ${SECRET_KEY:-dev-secret-key-change-in-production}
+      YANDEX_MAPS_API_KEY: ${YANDEX_MAPS_API_KEY:-}
+      GOOGLE_PLACES_API_KEY: ${GOOGLE_PLACES_API_KEY:-}
+      HUGGINGFACE_TOKEN: ${HUGGINGFACE_TOKEN:-}
     volumes:
       - ./backend:/app
-      - backend_data:/app/data
     ports:
       - "8000:8000"
     depends_on:
@@ -40,33 +44,39 @@ services:
         condition: service_healthy
     networks:
       - dateplanner-network
-    command: uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+    command: >
+      sh -c "sleep 5 && 
+      uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+    restart: unless-stopped
 
+  # Vue.js Frontend
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    container_name: dateplanner-frontend
     ports:
       - "3000:80"
     depends_on:
       - backend
     networks:
       - dateplanner-network
-    environment:
-      VITE_API_URL: http://localhost:8000
-      VITE_APP_NAME: DatePlanner AI
+    restart: unless-stopped
 
+  # PGAdmin (опционально)
   pgadmin:
     image: dpage/pgadmin4
+    container_name: dateplanner-pgadmin
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@dateplanner.com
-      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@dateplanner.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin123}
     ports:
       - "5050:80"
     depends_on:
       - postgres
     networks:
       - dateplanner-network
+    restart: unless-stopped
 
 networks:
   dateplanner-network:
@@ -74,4 +84,3 @@ networks:
 
 volumes:
   postgres_data:
-  backend_data:

@@ -6,7 +6,6 @@ __pycache__/
 .env
 .venv
 venv/
-venv.bak/
 env/
 *.sqlite3
 *.log
@@ -21,3 +20,4 @@ coverage.xml
 *.egg-info/
 dist/
 build/
+*.md

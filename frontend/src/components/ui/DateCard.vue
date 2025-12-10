@@ -66,6 +66,8 @@ const getPriceText = (level) => {
 
 <style scoped>
 .date-card {
+  height: 300px;
+  width: 400px;
   background: white;
   border-radius: 15px;
   overflow: hidden;
@@ -94,8 +96,8 @@ const getPriceText = (level) => {
 
 .rating-badge {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 0.1rem;
+  left: 10rem;
   background: rgba(255, 255, 255, 0.9);
   padding: 0.5rem 1rem;
   border-radius: 20px;

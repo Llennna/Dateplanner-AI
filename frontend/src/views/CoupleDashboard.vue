@@ -175,31 +175,31 @@ const activeTab = ref('dates')
 const recentDates = ref([
   {
     id: 1,
-    place: 'Ресторан "Итальянские сны"',
-    date: '10.01.2024',
-    time: '19:30',
+    place: 'Ресторан "Бургер Кинг"',
+    date: '30.10.2025',
+    time: '16:15',
     rating: 5,
-    note: 'Отличная паста и романтическая атмосфера!',
-    emoji: '🍝'
-  },
-  {
-    id: 2,
-    place: 'Парк Горького',
-    date: '05.01.2024',
-    time: '14:00',
-    rating: 4,
-    note: 'Прекрасная зимняя прогулка, было холодно но весело',
-    emoji: '❄️'
-  },
-  {
-    id: 3,
-    place: 'Кинотеатр "Формула Кино"',
-    date: '28.12.2023',
-    time: '20:15',
-    rating: 4,
-    note: 'Интересный фильм, удобные кресла',
-    emoji: '🎬'
+    note: 'Ну было круто, idk',
+    emoji: '🍔'
   }
+  // {
+  //   id: 2,
+  //   place: 'Парк Горького',
+  //   date: '05.01.2024',
+  //   time: '14:00',
+  //   rating: 4,
+  //   note: 'Прекрасная зимняя прогулка, было холодно но весело',
+  //   emoji: '❄️'
+  // },
+  // {
+  //   id: 3,
+  //   place: 'Кинотеатр "Формула Кино"',
+  //   date: '28.12.2023',
+  //   time: '20:15',
+  //   rating: 4,
+  //   note: 'Интересный фильм, удобные кресла',
+  //   emoji: '🎬'
+  // }
 ])
 
 // Предпочтения
@@ -219,25 +219,26 @@ const preferenceTypes = ['Романтический', 'Активный', 'Ую
 
 // Избранное
 const favoritePlaces = ref([
+  
   {
     id: 1,
-    name: 'Ресторан "Ла Скала"',
+    name: 'Ресторан "Бургер Кинг"',
     type: 'Романтический',
-    address: 'ул. Тверская, 24',
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400',
+    address: 'ул. ТЦ "Айсберг"',
+    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Burger_King_2020.svg/1099px-Burger_King_2020.svg.png',
     rating: 4.8,
-    reviewCount: 127,
-    priceLevel: 3
+    reviewCount: 2,
+    priceLevel: 1
   },
   {
     id: 2,
-    name: 'Кофейня "Уют"',
+    name: 'Пиццерия "Додо-пицца"',
     type: 'Уютный',
-    address: 'ул. Арбат, 32',
+    address: 'ул. Ойунского, 16',
     image: 'https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400',
-    rating: 4.9,
-    reviewCount: 89,
-    priceLevel: 2
+    rating: 1,
+    reviewCount: 4,
+    priceLevel: 1
   }
 ])
 
@@ -564,7 +565,7 @@ const refreshAI = () => {
 /* Favorites */
 .favorites-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 1.5rem;
   margin-bottom: 1.5rem;
 }

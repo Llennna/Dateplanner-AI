@@ -159,14 +159,14 @@ import DateCard from '../components/ui/DateCard.vue'
 // Данные пары
 const couple = ref({
   name: 'Лена и Лева',
-  togetherSince: '15.01.2023',
-  daysTogether: 329,
+  togetherSince: '2025-09.12.2025',
+  daysTogether: 30,
   photo: null
 })
 
 // Статистика
-const visitedPlaces = ref(12)
-const averageRating = ref(4.7)
+const visitedPlaces = ref(1)
+const averageRating = ref(5)
 
 // Вкладки
 const activeTab = ref('dates')

@@ -49,7 +49,7 @@
       </div>
     </section>
 
-    <!-- Призыв к действию -->
+    <!-- Призыв к действ  ию -->
     <section class="cta">
       <h2>Готовы к идеальному свиданию?</h2>
       <p>Присоединяйтесь к тысячам пар, которые уже доверили нам свои романтические вечера</p>
@@ -86,7 +86,7 @@ const startNow = () => {
   align-items: center;
   gap: 4rem;
   margin-bottom: 4rem;
-  background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 100%);
+  background: linear-gradient(135deg, #df1a1a48 0%, #c78b8b00 100%);
   border-radius: 20px;
   padding: 3rem;
   box-shadow: 0 10px 30px rgba(233, 30, 99, 0.1);
@@ -222,7 +222,7 @@ const startNow = () => {
 .cta {
   text-align: center;
   padding: 4rem 2rem;
-  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+  background: linear-gradient(135deg, #7c7575a2 0%, #ff0404ec 100%);
   color: white;
   border-radius: 20px;
   margin-bottom: 2rem;
